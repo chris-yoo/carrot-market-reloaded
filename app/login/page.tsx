@@ -1,6 +1,11 @@
+"use client";
+
 import FormInput from "../components/form-input";
 import FormButton from "../components/form-btn";
 import SocialLogin from "../components/social-login";
+import { redirect } from "next/navigation";
+import { useFormState } from "react-dom";
+import { handleForm } from "./actions";
 
 export default function Login() {
   //   const onClick = async () => {
@@ -14,18 +19,11 @@ export default function Login() {
   //     console.log(await response.json());
   //   };
 
-  const handleForm = async (formData: FormData) => {
-    //Data 를 catch 하고 싶으면 변수에 타입을 추가한다.
-    "use server";
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-    console.log(formData.get("email"));
-    console.log(formData.get("password"));
-    console.log("i run in the server action");
-    //post request 를 보내고 있음
-  };
+  const [state, action] = useFormState(handleForm, { potato: 1 } as any);
 
   //const { action, data, method, pending } = useFormStatus();
   //규칙 action property 가 할당된 하위 component 에만 사용가능
+  // initail state 는 action 이 반환하는 것과 형태가 같아야 한다.
 
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
@@ -33,7 +31,7 @@ export default function Login() {
         <h1 className="text-2xl">안녕하세요!</h1>
         <h2 className="text-xl">Login with email and password.</h2>
       </div>
-      <form action={handleForm} className="flex flex-col gap-3">
+      <form action={action} className="flex flex-col gap-3">
         <FormInput
           name="email"
           type="email"
@@ -46,7 +44,7 @@ export default function Login() {
           type="password"
           placeholder="Password"
           required
-          errors={[""]}
+          errors={state.errors ?? []}
         />
         <span>
           <FormButton text="Log in" />

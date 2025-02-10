@@ -1,15 +1,19 @@
+"use client";
+
+import { useFormStatus } from "react-dom";
+
 interface FormButtonProps {
   text: string;
-  loading: boolean;
 }
 
-export default function FormButton({ text, loading }: FormButtonProps) {
+export default function FormButton({ text }: FormButtonProps) {
+  const { action, data, method, pending } = useFormStatus();
   return (
     <button
-      disabled={loading}
+      disabled={pending}
       className="primary-btn h-10 disabled:bg-neutral-400"
     >
-      {loading ? "Loading..." : text}
+      {pending ? "Loading..." : text}
     </button>
   );
 }

@@ -1,9 +1,8 @@
 "use client";
 
-import FormInput from "../components/form-input";
-import FormButton from "../components/form-btn";
+import Input from "../components/input";
+import Button from "../components/button";
 import SocialLogin from "../components/social-login";
-import { redirect } from "next/navigation";
 import { handleForm } from "./actions";
 import { useActionState } from "react";
 
@@ -32,14 +31,14 @@ export default function Login() {
         <h2 className="text-xl">Login with email and password.</h2>
       </div>
       <form action={action} className="flex flex-col gap-3">
-        <FormInput
+        <Input
           name="email"
           type="email"
           placeholder="Email"
           required
           errors={[""]}
         />
-        <FormInput
+        <Input
           name="password"
           type="password"
           placeholder="Password"
@@ -47,7 +46,7 @@ export default function Login() {
           errors={state.errors ?? []}
         />
         <span>
-          <FormButton text="Log in" />
+          <Button text="Log in" />
         </span>
         <SocialLogin />
       </form>

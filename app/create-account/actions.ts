@@ -1,6 +1,10 @@
 "use server";
 import { z } from "zod";
 
+const passwordRegex = new RegExp(
+  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/
+);
+
 const checkPasswords = ({
   password,
   confirm_password,
@@ -15,9 +19,17 @@ const formSchema = z
       .string()
       .min(3, "Way too short!!!")
       .max(10, "That is to long!!!!!")
-      .refine((username) => false, "custom error"),
-    email: z.string().email(),
-    password: z.string().min(10),
+      .toLowerCase()
+      .trim()
+      .transform((username) => `🏆${username}🏆`),
+    email: z.string().email().trim(),
+    password: z
+      .string()
+      .min(10)
+      .regex(
+        passwordRegex,
+        "a password nust have upper case ... something else"
+      ),
     confirm_password: z.string().min(10),
   })
   .refine(checkPasswords, {
@@ -46,5 +58,7 @@ export async function createAcount(prevState: any, formData: FormData) {
     // console.log(result.error.errors); 이렇게 써야 에러가 안난다. result.error 그 자체로는 에러가 난다.
     console.log(result.error.flatten());
     return result.error.flatten();
+  } else {
+    console.log(result.data);
   }
 }

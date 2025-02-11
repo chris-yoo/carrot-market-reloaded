@@ -3,7 +3,7 @@
 import Input from "../components/input";
 import Button from "../components/button";
 import SocialLogin from "../components/social-login";
-import { handleForm } from "./actions";
+import { login } from "./actions";
 import { useActionState } from "react";
 
 export default function Login() {
@@ -18,7 +18,7 @@ export default function Login() {
   //     console.log(await response.json());
   //   };
 
-  const [state, action] = useActionState(handleForm, { potato: 1 } as any);
+  const [state, action] = useActionState(login, null);
 
   //const { action, data, method, pending } = useFormStatus();
   //규칙 action property 가 할당된 하위 component 에만 사용가능
@@ -36,14 +36,14 @@ export default function Login() {
           type="email"
           placeholder="Email"
           required
-          errors={[""]}
+          errors={state?.fieldErrors.email}
         />
         <Input
           name="password"
           type="password"
           placeholder="Password"
           required
-          errors={state.errors ?? []}
+          errors={state?.fieldErrors.password}
         />
         <span>
           <Button text="Log in" />

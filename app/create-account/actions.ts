@@ -1,9 +1,6 @@
 "use server";
+import { PASSWORD_MIN_LENGTH, PASSWORD_REGEX } from "@/lib/constants";
 import { z } from "zod";
-
-const passwordRegex = new RegExp(
-  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/
-);
 
 const checkPasswords = ({
   password,
@@ -17,17 +14,15 @@ const formSchema = z
   .object({
     username: z
       .string()
-      .min(3, "Way too short!!!")
-      .max(10, "That is to long!!!!!")
       .toLowerCase()
       .trim()
       .transform((username) => `🏆${username}🏆`),
     email: z.string().email().trim(),
     password: z
       .string()
-      .min(10)
+      .min(PASSWORD_MIN_LENGTH)
       .regex(
-        passwordRegex,
+        PASSWORD_REGEX,
         "a password nust have upper case ... something else"
       ),
     confirm_password: z.string().min(10),

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import "../lib/db";
+// import "../lib/db";
 // 새로고침할때 최소 한번 db.ts 가 실행된다.
 
 export default function Home() {

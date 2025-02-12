@@ -25,7 +25,7 @@ model SMSToken {
     token      String   @unique
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
-    user       User     @relation(fields: [userId], references: [id])
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId     Int // 이 값만 저장이 된다. smstoken 안의 userId는 User의 id 를 참조한다.
 }
 
